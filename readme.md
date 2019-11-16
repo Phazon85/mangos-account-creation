@@ -1,0 +1,1 @@
+<h1>MaNGOS Account creation</h1>
