@@ -9,7 +9,7 @@ import (
 
 const (
 	psqlConnectionString  = "host=%s port=%d user=%s password=%s dbname=%s sslmode=disable"
-	mysqlConnectionString = "%s:%s@/%s"
+	mysqlConnectionString = "%s:%s@%s/%s"
 )
 
 //SQLConnectionInfo holds connection info for SQL implementations
@@ -18,7 +18,7 @@ type SQLConnectionInfo struct {
 	Port       int64  `yaml:"port"`
 	User       string `yaml:"user"`
 	Password   string `yaml:"password"`
-	DriverName string `yaml:"name"`
+	DriverName string `yaml:"drivername"`
 	DBName     string `yaml:"dbname"`
 }
 
@@ -31,7 +31,7 @@ func newConfig(file string) (driverName string, connection string) {
 
 	switch cfg.DriverName {
 	case "mysql":
-		con = fmt.Sprintf(mysqlConnectionString, cfg.User, cfg.Password, cfg.Host)
+		con = fmt.Sprintf(mysqlConnectionString, cfg.User, cfg.Password, cfg.Host, cfg.DBName)
 	case "postgres":
 		con = fmt.Sprintf(psqlConnectionString, cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName)
 	}

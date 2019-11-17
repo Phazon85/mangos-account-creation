@@ -5,6 +5,7 @@ import (
 	"log"
 
 	//used for testing in pg_test.go
+	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 )
 
@@ -17,7 +18,7 @@ func New(file string) *sql.DB {
 	}
 	err = db.Ping()
 	if err != nil {
-		log.Printf("Error pinging postgres db connection: %s", err.Error())
+		log.Printf("Error pinging sql db connection: %s", err.Error())
 	}
 	log.Println("Successfully connected.")
 	return db

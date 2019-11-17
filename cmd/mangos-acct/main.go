@@ -56,7 +56,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db := pg.
+	db := sqldb.New(dbconn)
 	pgsql := pgsql.New(db)
 	acc := acct.New(pgsql)
 
