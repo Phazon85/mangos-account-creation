@@ -12,7 +12,7 @@
             "program": "${workspaceFolder}/cmd/mangos-acct/main.go",
             "env": {
                 "MANGOS_ACCT_PORT": "9000",
-                "MANGOS_ACCT_DBCONN": ""
+                "MANGOS_ACCT_DBCONN": "dev.yaml"
             },
             "args": []
         }

@@ -1,7 +1,11 @@
 package main
 
 import (
-	"github.com/phazon85/mangos-account-registration/pkg/authorizor"
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/phazon85/mangos-account-registration/pkg/acct"
 	"github.com/phazon85/mangos-account-registration/pkg/http/rest"
 	"github.com/phazon85/mangos-account-registration/pkg/repository/pgsql"
 	"github.com/phazon85/mangos-account-registration/pkg/sqldb/pg"
@@ -13,28 +17,28 @@ const (
 	DBCONN = "MANGOS_ACCT_DBCONN"
 	// PORT ...
 	PORT = "MANGOS_ACCT_PORT"
-	// DEFAULTPORT
+	// DEFAULTPORT ...
 	DEFAULTPORT = "9000"
 	// ENV ...
 	ENV = "MANGOS_ACCT_ENV"
-	// DEFAULTENV
+	// DEFAULTENV ...
 	DEFAULTENV = "dev"
 )
 
 func main() {
 	// load environment
 	dbconn := os.Getenv(DBCONN)
-	if dbconn = "" {
+	if dbconn == "" {
 		log.Fatal("db connection required")
 	}
 
 	port := os.Getenv(PORT)
-	if port = "" {
+	if port == "" {
 		port = DEFAULTPORT
 	}
 
 	env := os.Getenv(ENV)
-	if env = "" {
+	if env == "" {
 		env = DEFAULTENV
 	}
 
@@ -46,7 +50,7 @@ func main() {
 	case "prod":
 		logger, err = zap.NewProduction()
 	default:
-		logger, err =  zap.NewDevelopment()
+		logger, err = zap.NewDevelopment()
 	}
 	if err != nil {
 		log.Fatal(err)
@@ -54,10 +58,10 @@ func main() {
 
 	db := pg.NewSQLDBObject(dbconn)
 	pgsql := pgsql.New(db)
-	authorizor := authorizor.New(pgsql)
+	acc := acct.New(pgsql)
 
-	api := rest.New(authorizor)
-	api.Addr(fmt.Sprintf(":%s", port))
+	api := rest.New(acc, logger)
+	api.Addr = fmt.Sprintf(":%s", port)
 	logger.Info("server start", zap.String("port", port))
 	log.Fatal(api.ListenAndServe())
 }

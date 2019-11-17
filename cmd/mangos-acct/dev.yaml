@@ -1,0 +1,6 @@
+host: "10.0.0.171"
+port: 3306
+user: "mangos"
+password: "Quadzilla13-2"
+drivername: "mysql"
+dbname: "zero_realm"

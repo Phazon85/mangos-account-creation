@@ -8,28 +8,35 @@ import (
 )
 
 const (
-	psqlConnectionString = "host=%s port=%d user=%s password=%s dbname=%s sslmode=disable"
+	psqlConnectionString  = "host=%s port=%d user=%s password=%s dbname=%s sslmode=disable"
+	mysqlConnectionString = "%s:%s@/%s"
 )
 
 //SQLConnectionInfo holds connection info for SQL implementations
 type SQLConnectionInfo struct {
-	Host     string `yaml:"host"`
-	Port     int64  `yaml:"port"`
-	User     string `yaml:"user"`
-	Password string `yaml:"password"`
-	Name     string `yaml:"name"`
-	DBName   string `yaml:"dbname"`
+	Host       string `yaml:"host"`
+	Port       int64  `yaml:"port"`
+	User       string `yaml:"user"`
+	Password   string `yaml:"password"`
+	DriverName string `yaml:"name"`
+	DBName     string `yaml:"dbname"`
 }
 
-func newConfig(file string) string {
+func newConfig(file string) (driverName string, connection string) {
 	cfg := &SQLConnectionInfo{}
+	var con string
 	if err := load(cfg, file); err != nil {
-		return ""
+		return "", ""
 	}
 
-	psql := fmt.Sprintf(psqlConnectionString, cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName)
+	switch cfg.DriverName {
+	case "mysql":
+		con = fmt.Sprintf(mysqlConnectionString, cfg.User, cfg.Password, cfg.Host)
+	case "postgres":
+		con = fmt.Sprintf(psqlConnectionString, cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName)
+	}
 
-	return psql
+	return cfg.DriverName, con
 }
 
 func load(config interface{}, fname string) error {
