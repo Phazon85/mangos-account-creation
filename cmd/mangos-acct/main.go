@@ -8,7 +8,7 @@ import (
 	"github.com/phazon85/mangos-account-registration/pkg/acct"
 	"github.com/phazon85/mangos-account-registration/pkg/http/rest"
 	"github.com/phazon85/mangos-account-registration/pkg/repository/pgsql"
-	"github.com/phazon85/mangos-account-registration/pkg/sqldb/pg"
+	"github.com/phazon85/mangos-account-registration/pkg/sqldb"
 	"go.uber.org/zap"
 )
 
@@ -56,7 +56,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	db := pg.NewSQLDBObject(dbconn)
+	db := pg.
 	pgsql := pgsql.New(db)
 	acc := acct.New(pgsql)
 

@@ -1,4 +1,4 @@
-package pg
+package sqldb
 
 import "testing"
 
@@ -8,7 +8,7 @@ const (
 
 func TestNewConfig(t *testing.T) {
 	t.Run("Postgres config", func(t *testing.T) {
-		cfg := newConfig(postgresFile)
+		driver, cfg := newConfig(postgresFile)
 		want := "host=localhost port=5432 user=postgres password=changeme dbname=test sslmode=disable"
 		if cfg != want {
 			t.Errorf("Error loading config, got: %s, want %s", cfg, want)
@@ -16,7 +16,7 @@ func TestNewConfig(t *testing.T) {
 	})
 
 	t.Run("Nil file name", func(t *testing.T) {
-		cfg := newConfig("")
+		driver, cfg := newConfig("")
 		if cfg != "" {
 			t.Errorf("Wanted to get an empty string, but didn't")
 		}
