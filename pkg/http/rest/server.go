@@ -14,7 +14,7 @@ import (
 // Account ...
 type Account interface {
 	Register(req *acct.CreateRequest) error
-	ResetPassword(name string) error
+	ResetPassword(req *acct.CreateRequest) error
 }
 
 // New implements the actions interface
@@ -37,7 +37,7 @@ func newRouter(acct Account, logger *zap.Logger) http.Handler {
 
 	// API Endpoints
 	router.Post("/account", postAccountHandler(logger, acct))
-	router.Post("/account/:name/resetpassword", postResetPasswordHandler(logger, acct))
+	router.Post("/account/resetpassword", postResetPasswordHandler(logger, acct))
 
 	return router
 }
@@ -92,16 +92,39 @@ func postAccountHandler(logger *zap.Logger, acctSvc Account) http.HandlerFunc {
 
 func postResetPasswordHandler(logger *zap.Logger, acctSvc Account) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		name := vestigo.Param(r, "name")
+		var acctReq *acct.CreateRequest
 
-		err := acctSvc.ResetPassword(name)
+		data, err := ioutil.ReadAll(r.Body)
+		defer r.Body.Close()
+		if err != nil {
+			logger.Error(
+				"post account handler error",
+				zap.String("error", err.Error()),
+			)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = json.Unmarshal(data, &acctReq)
+		if err != nil {
+			logger.Error(
+				"post account handler error",
+				zap.String("error", err.Error()),
+			)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		err = acctSvc.ResetPassword(acctReq)
 		if err != nil {
 			logger.Error(
 				"post reset password handler error",
 				zap.String("error", err.Error()),
 			)
 		}
+
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("running"))
+		w.Write([]byte(`{"status": "updated"}`))
 	}
 }

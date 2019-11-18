@@ -14,7 +14,7 @@ type CreateRequest struct {
 // Repository ...
 type Repository interface {
 	CreateAccount(req *CreateRequest) error
-	ResetPassword(name string) error
+	ResetPassword(req *CreateRequest) error
 }
 
 // New ...
@@ -30,6 +30,6 @@ func (s *Service) Register(req *CreateRequest) error {
 }
 
 // ResetPassword ...
-func (s *Service) ResetPassword(name string) error {
-	return s.repo.ResetPassword(name)
+func (s *Service) ResetPassword(req *CreateRequest) error {
+	return s.repo.ResetPassword(req)
 }
