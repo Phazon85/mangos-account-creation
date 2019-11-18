@@ -121,6 +121,8 @@ func postResetPasswordHandler(logger *zap.Logger, acctSvc Account) http.HandlerF
 				"post reset password handler error",
 				zap.String("error", err.Error()),
 			)
+			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 
 		w.Header().Set("Content-Type", "application/json")
