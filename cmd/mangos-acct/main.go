@@ -8,7 +8,7 @@ import (
 	"github.com/phazon85/mangos-account-registration/pkg/acct"
 	"github.com/phazon85/mangos-account-registration/pkg/http/rest"
 	"github.com/phazon85/mangos-account-registration/pkg/repository/pgsql"
-	"github.com/phazon85/mangos-account-registration/pkg/sqldb"
+	"github.com/phazon85/mangos-account-registration/pkg/repository/sqldb"
 	"go.uber.org/zap"
 )
 

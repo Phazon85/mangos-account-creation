@@ -14,9 +14,9 @@ import (
 )
 
 const (
-	activeAccount = `SELECT username FROM account WHERE username='$1';`
-	createEntry   = `INSERT INTO account (username, sha_pass_hash, joindate, v, s, last_ip) VALUES ($1, $2, $3, $4, $5, $6);`
-	updateEntry   = `UPDATRE account SET sha_pass_hash='$1', v=0, s=0 where username='$2';`
+	activeAccount = `SELECT username FROM account WHERE username=?;`
+	createEntry   = `INSERT INTO account (username, sha_pass_hash) VALUES (?, SHA1(CONCAT(UPPER(?),':',UPPER(?))));`
+	updateEntry   = `UPDATRE account SET ?, v=0, s=0 where username='?';`
 )
 
 var (
@@ -67,11 +67,8 @@ func (c *Client) CreateAccount(req *acct.CreateRequest) error {
 	_, err := c.db.Exec(
 		createEntry,
 		newAccount.Username,
-		newAccount.SHAPassHash,
-		newAccount.JoinDate,
-		newAccount.V,
-		newAccount.S,
-		newAccount.LastIP,
+		newAccount.Username,
+		req.Password,
 	)
 	if err != nil {
 		return err
@@ -92,10 +89,8 @@ func newPlayerAccount(uname, shaPass string) *Account {
 	return &Account{
 		Username:    uname,
 		SHAPassHash: shaPass,
-		JoinDate:    time.Now().UTC(),
 		V:           "0",
 		S:           "0",
-		LastIP:      "0.0.0.0",
 	}
 }
 

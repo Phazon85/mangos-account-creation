@@ -1,6 +1,6 @@
-host: "10.0.0.171"
+host: "localhost"
 port: 3306
-user: "mangos"
-password: "Quadzilla13-2"
+user: "mysql"
+password: "changeme"
 drivername: "mysql"
-dbname: "zero_realm"
+dbname: "test"
