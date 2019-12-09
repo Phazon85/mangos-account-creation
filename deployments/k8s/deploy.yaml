@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mangos-account-creation
+  labels:
+    app: mangos-account-creation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mangos-account-creation
+  template:
+    metadata:
+      labels:
+        app: mangos-account-creation
+    spec:
+      containers:
+      - name: mangos-account-creation
+        image: docker.io/phazon85/mangos-account-creation:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 443
