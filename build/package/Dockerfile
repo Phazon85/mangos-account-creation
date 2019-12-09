@@ -4,7 +4,7 @@
 FROM golang:1.12.4 AS builder
 WORKDIR /workspace/
 COPY . .
-RUN GOOS=linux GOARCH=386 GO111MODULE=on go build -o mangos-account-creation cmd/mangos-acct/main.go
+RUN GOOS=linux GOARCH=amd64 GO111MODULE=on go build -o mangos-account-creation cmd/mangos-acct/main.go
 
 ###########################################
 ### STEP 2: use small image for deploy  ###
