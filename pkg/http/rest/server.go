@@ -7,7 +7,7 @@ import (
 
 	"github.com/fiseo/httpsrv"
 	"github.com/husobee/vestigo"
-	"github.com/phazon85/mangos-account-registration/pkg/acct"
+	"github.com/phazon85/mangos-account-creation/pkg/acct"
 	"go.uber.org/zap"
 )
 

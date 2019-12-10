@@ -5,7 +5,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/phazon85/mangos-account-registration/pkg/acct"
+	"github.com/phazon85/mangos-account-creation/pkg/acct"
 )
 
 const (

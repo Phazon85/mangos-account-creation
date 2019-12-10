@@ -5,9 +5,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/phazon85/mangos-account-registration/pkg/acct"
-	"github.com/phazon85/mangos-account-registration/pkg/http/rest"
-	"github.com/phazon85/mangos-account-registration/pkg/repository/pgsql"
+	"github.com/phazon85/mangos-account-creation/pkg/acct"
+	"github.com/phazon85/mangos-account-creation/pkg/http/rest"
+	"github.com/phazon85/mangos-account-creation/pkg/repository/pgsql"
 	"github.com/phazon85/multisql"
 	"go.uber.org/zap"
 )
