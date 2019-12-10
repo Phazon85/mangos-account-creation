@@ -7,6 +7,9 @@ spec:
   - name: https
     port: 443
     targetPort: 443
+    - name: mangos
+    port: 9000
+    targetPort: 9000
   selector:
     app: mangos-account-creation
   sessionAffinity: None

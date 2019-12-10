@@ -14,9 +14,21 @@ spec:
       labels:
         app: mangos-account-creation
     spec:
+      volumes:
+        - name: dbconn
+          secret:
+            secretName: dbconn
       containers:
       - name: mangos-account-creation
         image: docker.io/phazon85/mangos-account-creation:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 443
+        volumeMounts:
+          - name: dbconn
+            mountPath: "/etc/dbconn"
+            readOnly: true
+        env:
+          - name: MANGOS_ACCT_DBCONN
+            value: "/etc/dbconn/dbconn.yaml"
+          
